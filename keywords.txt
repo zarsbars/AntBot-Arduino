@@ -1,0 +1,28 @@
+#####################################################################
+#	Datatypes (KEYWORD1)
+#####################################################################
+
+AntBot				KEYWORD1
+LineFollower			KEYWORD1
+Ultrasonic			KEYWORD1
+
+#####################################################################
+#	Methods and Functions (KEYWORD2)
+#####################################################################
+
+AntBot				KEYWORD2
+stop				KEYWORD2
+fullForward			KEYWORD2
+fullReverse			KEYWORD2
+forwardSpeed			KEYWORD2
+reverseSpeed			KEYWORD2
+
+LineFollower			KEYWORD2
+setPort				KEYWORD2
+getLeft				KEYWORD2
+getRight			KEYWORD2
+
+Ultrasonic			KEYWORD2
+measure				KEYWORD2
+getDistCm			KEYWORD2
+getDistIn			KEYWORD2
