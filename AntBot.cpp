@@ -1,9 +1,9 @@
 #include <AntBot.h>
 #include <LineFollower.h>
 #include <Ultrasonic.h>
+#include <PiezoBuzzer.h>
 
-LineFollower lineFollower("A");
-Ultrasonic ultrasonic;
+
 
 AntBot::AntBot(boolean reverse) {
 	isReversed = reverse;

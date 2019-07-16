@@ -1,16 +1,17 @@
-#ifndef AntBot_h
+//#ifndef AntBot_h
 #define	AntBot_h
 
 #include <Arduino.h>
 #include <LineFollower.h>
 #include <Ultrasonic.h>
 #include <Servo.h>
+#include <PiezoBuzzer.h>
 
 #define motorPWMR 4
 #define motorDR	5
 #define motorPWML 7
 #define motorDL	6
-#define buzzer 8
+//#define buzzer 8
 
 class AntBot
 {
@@ -21,6 +22,7 @@ public:
 	//sensors
 	LineFollower lineFollower;
 	Ultrasonic ultrasonic;
+	PiezoBuzzer Buzzer;
 
 	//implemented
 	AntBot(boolean reverse);
@@ -37,4 +39,4 @@ public:
 	
 };
 
-#endif
+//#endif
