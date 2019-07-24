@@ -1,7 +1,9 @@
+#pragma once
 #include <AntBot.h>
-#include <LineFollower.h>
-#include <Ultrasonic.h>
-#include <PiezoBuzzer.h>
+//#include <LineFollower.h>
+//#include <Ultrasonic.h>
+//#include <PiezoBuzzer.h>
+//#include <Display.h>
 
 
 
@@ -18,7 +20,7 @@ AntBot::AntBot(boolean reverse) {
 	pinMode(6, OUTPUT);
 }
 
-void AntBot::stop() {
+void AntBot::stopMotion() {
 	analogWrite(5,0);
 	analogWrite(6,0);
 }
@@ -37,7 +39,7 @@ void AntBot::fullReverse() {
 	analogWrite(6, 255);
 }
 
-void AntBot::forwardSpeed(int speed) {
+void AntBot::forward(int speed) {
 	if(speed < 0){
 		speed = 0;
 	}else if(speed > 255){
@@ -49,7 +51,7 @@ void AntBot::forwardSpeed(int speed) {
 	analogWrite(6, speed);
 }
 
-void AntBot::reverseSpeed(int speed) {
+void AntBot::reverse(int speed) {
 	if(speed < 0){
 		speed = 0;
 	}else if(speed > 255){
@@ -61,14 +63,96 @@ void AntBot::reverseSpeed(int speed) {
 	analogWrite(6, speed);
 }
 
-void AntBot::turnRight(int speed) {
+void AntBot::forwardTimedSpeed(int speed, double time)
+{
+	forward(speed);
+	delay(time * 1000);
+	stopMotion();
 
 }
 
-void AntBot::turnLeft(int speed) {
+void AntBot::reverseTimedSpeed(int speed, double time)
+{
+	reverse(speed);
+	delay(time * 1000);
+	stopMotion();
+}
+
+void AntBot::turnRight(int speed)
+{
+	if (speed < 0) {
+		speed = 0;
+	}
+	else if (speed > 255) {
+		speed = 255;
+	}
+	PORTD &= ~(1 << PD7);
+		analogWrite(6, speed);
 
 }
 
-void AntBot::setMotorSpeed(String motor, int speed) {
+void AntBot::turnLeft(int speed) 
+{
+	if (speed < 0) {
+		speed = 0;
+	}
+	else if (speed > 255) {
+		speed = 255;
+	}
+	PORTD &= ~(1 << PD4);
+	analogWrite(5, speed);
+}
 
+void AntBot::setMotors(int left, int right)
+{
+	if (left < 0) {
+		left = 0;
+	}
+	else if (left > 255) {
+		left = 255;
+	}
+
+	if (right < 0) {
+		right = 0;
+	}
+	else if (right > 255) {
+		right = 255;
+	}
+
+	PORTD &= ~(1 << PD4);
+	analogWrite(5, left);
+
+	PORTD &= ~(1 << PD4);
+	analogWrite(5, right);
+
+
+
+
+}
+
+
+void AntBot::turnRightTime(int speed, double time)
+{
+	if (speed < 0) {
+		speed = 0;
+	}
+	else if (speed > 255) {
+		speed = 255;
+	}
+	turnRight(speed);
+	delay(1000 * time);
+	stopMotion();
+}
+
+void AntBot::turnLeftTime(int speed, double time)
+{
+	if (speed < 0) {
+		speed = 0;
+	}
+	else if (speed > 255) {
+		speed = 255;
+	}
+	turnLeft(speed);
+	delay(1000 * time);
+	stopMotion();
 }
