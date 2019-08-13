@@ -1,4 +1,3 @@
-#pragma once
 #include <AntBot.h>
 
 IRrecv irrecv(2); //For remote
