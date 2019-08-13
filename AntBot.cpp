@@ -1,11 +1,11 @@
 #pragma once
 #include <AntBot.h>
-//#include <LineFollower.h>
-//#include <Ultrasonic.h>
-//#include <PiezoBuzzer.h>
-//#include <Display.h>
 
+IRrecv irrecv(2); //For remote
 
+AntBot::AntBot() {
+
+}
 
 AntBot::AntBot(boolean reverse) {
 	isReversed = reverse;
@@ -63,22 +63,21 @@ void AntBot::reverse(int speed) {
 	analogWrite(6, speed);
 }
 
-void AntBot::forwardTimedSpeed(int speed, double time)
+void AntBot::forwardTime(int speed, double sec)
 {
 	forward(speed);
-	delay(time * 1000);
+	delay(sec * 1000);
 	stopMotion();
-
 }
 
-void AntBot::reverseTimedSpeed(int speed, double time)
+void AntBot::reverseTime(int speed, double sec)
 {
 	reverse(speed);
-	delay(time * 1000);
+	delay(sec * 1000);
 	stopMotion();
 }
 
-void AntBot::turnRight(int speed)
+void AntBot::turnLeft(int speed)
 {
 	if (speed < 0) {
 		speed = 0;
@@ -88,10 +87,9 @@ void AntBot::turnRight(int speed)
 	}
 	PORTD &= ~(1 << PD7);
 		analogWrite(6, speed);
-
 }
 
-void AntBot::turnLeft(int speed) 
+void AntBot::turnRight(int speed) 
 {
 	if (speed < 0) {
 		speed = 0;
@@ -124,14 +122,9 @@ void AntBot::setMotors(int left, int right)
 
 	PORTD &= ~(1 << PD4);
 	analogWrite(5, right);
-
-
-
-
 }
 
-
-void AntBot::turnRightTime(int speed, double time)
+void AntBot::turnRightTime(int speed, double sec)
 {
 	if (speed < 0) {
 		speed = 0;
@@ -140,11 +133,11 @@ void AntBot::turnRightTime(int speed, double time)
 		speed = 255;
 	}
 	turnRight(speed);
-	delay(1000 * time);
+	delay(1000 * sec);
 	stopMotion();
 }
 
-void AntBot::turnLeftTime(int speed, double time)
+void AntBot::turnLeftTime(int speed, double sec)
 {
 	if (speed < 0) {
 		speed = 0;
@@ -153,6 +146,55 @@ void AntBot::turnLeftTime(int speed, double time)
 		speed = 255;
 	}
 	turnLeft(speed);
-	delay(1000 * time);
+	delay(1000 * sec);
 	stopMotion();
+}
+
+void AntBot::remoteSetup()
+{
+	irrecv.enableIRIn();
+}
+
+//Allows for driving of the robot
+void AntBot::remotePlay()
+{
+	var = 0;
+
+	while (true) {
+		if (irrecv.decode(&results)) {
+			if (results.value != HOLD)
+				irsignal = results.value;
+
+			//Stops the motors when a different button is pressed (in case we decide to 
+			//program the other buttons)
+			if (var != irsignal) {
+				stopMotion();
+				var = irsignal;
+			}
+
+			if (results.value == HOLD)
+				results.value = irsignal;
+
+			switch (results.value) {
+			case UP_ARROW:
+				fullForward();
+				break;
+			case DOWN_ARROW:
+				fullReverse();
+				break;
+			case LEFT_ARROW:
+				turnLeft(210);
+				break;
+			case RIGHT_ARROW:
+				turnRight(210);
+				break;
+			}
+
+			irrecv.resume();
+		}
+		else
+			stopMotion();
+
+		delay(150);
+	}
 }
