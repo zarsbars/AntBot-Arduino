@@ -70,4 +70,4 @@ public:
 	void remotePlay();
 };
 
-//#endif
+#endif
