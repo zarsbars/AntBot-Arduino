@@ -10,24 +10,25 @@ Ultrasonic::Ultrasonic(String port) {
 }
 
 void Ultrasonic::setPort(String port) {
-	if(port.equals("A")){
-		pingPin = 12;
-	}else if(port.equals("B")){
-		pingPin = 10;
+	if(port.equals("C")){
+		trig = A0;
+		echo = A1;
+	}else if(port.equals("D")){
+		trig = A2;
+		echo = A3;
 	}
-	pinMode(pingPin, OUTPUT);
+	pinMode(trig, OUTPUT);
+	pinMode(echo, INPUT);
 }
 
 long Ultrasonic::measure() {
-	pinMode(pingPin, OUTPUT);
-	digitalWrite(pingPin, LOW);
+	digitalWrite(trig, LOW);
 	delayMicroseconds(2);
-	digitalWrite(pingPin, HIGH);
+	digitalWrite(trig, HIGH);
 	delayMicroseconds(10);
-	digitalWrite(pingPin, LOW);
+	digitalWrite(trig, LOW);
 
-	pinMode(pingPin, INPUT);
-	long duration = pulseIn(pingPin, HIGH);
+	long duration = pulseIn(echo, HIGH);
 
 	return duration;
 }

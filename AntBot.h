@@ -4,8 +4,8 @@
 #include <Arduino.h>
 #include <LineFollower.h>
 #include <Ultrasonic.h>
-#include <IRremote.h>
-#include <Gyro.h> 
+//#include <IRremote.h>
+//#include <Gyro.h> 
 #include <PiezoBuzzer.h>
 //#include "Display.h"
 
@@ -37,7 +37,7 @@ private:
 	bool isReversed;
 
 	//For remote
-	decode_results results;
+	//decode_results results;
 	unsigned long int irsignal;
 	unsigned long int var;
 	
@@ -47,11 +47,11 @@ public:
 	Ultrasonic ultrasonic;
 	PiezoBuzzer Buzzer;
 	//Display display;
-	Gyro gyro;
+	//Gyro gyro;
 
-	//implemented
 	AntBot();
-	AntBot(boolean reverse);
+	void addLineFollower(String);
+	void addUltrasonic(String);
 	void stopMotion();
 	void fullForward();
 	void fullReverse();
@@ -66,8 +66,8 @@ public:
 	void turnLeftTime(int, double);
 
 	//Remote stuff
-	void remoteSetup();
-	void remotePlay();
+	//void remoteSetup();
+	//void remotePlay();
 };
 
 #endif

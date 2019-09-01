@@ -3,13 +3,11 @@
 
 #include <Arduino.h>
 
-//#define motorPWMR 4
-//#define motorDR	5
-
 class Ultrasonic
 {
 private:
-	int pingPin;
+	int trig;
+	int echo;
 	
 public:
 	Ultrasonic();

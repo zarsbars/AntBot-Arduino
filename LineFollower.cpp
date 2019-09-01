@@ -1,7 +1,7 @@
 #include <LineFollower.h>
 
 LineFollower::LineFollower() {
-	setPort("A");
+	setPort("C");
 }
 
 LineFollower::LineFollower(String port) {
@@ -9,12 +9,12 @@ LineFollower::LineFollower(String port) {
 }
 
 void LineFollower::setPort(String port) {
-	if(port.equals("A")){
-		leftPin = 11;
-		rightPin = 12;
-	}else if(port.equals("B")){
-		leftPin = 10;
-		rightPin = 9;
+	if(port.equals("C")){
+		leftPin = A0;
+		rightPin = A1;
+	}else if(port.equals("D")){
+		leftPin = A2;
+		rightPin = A3;
 	}
 	pinMode(leftPin, OUTPUT);
 	pinMode(rightPin, OUTPUT);
@@ -30,17 +30,17 @@ boolean LineFollower::getLeft() {
 }
 
 boolean LineFollower::onLine() {
-
+	return getRight() && getLeft();
 }
 
 boolean LineFollower::offLine() {
-
+	return !(getRight() || getLeft());
 }
 
 boolean LineFollower::rightOfLine() {
-
+	return getLeft() && !getRight();
 }
 
 boolean LineFollower::leftOfLine() {
-
+	return ~getLeft() && getRight();
 }
