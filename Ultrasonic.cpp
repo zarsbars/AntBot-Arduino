@@ -11,11 +11,11 @@ Ultrasonic::Ultrasonic(String port) {
 
 void Ultrasonic::setPort(String port) {
 	if(port.equals("C")){
-		trig = A0;
-		echo = A1;
+		trig = C1;
+		echo = C2;
 	}else if(port.equals("D")){
-		trig = A2;
-		echo = A3;
+		trig = D1;
+		echo = D2;
 	}
 	pinMode(trig, OUTPUT);
 	pinMode(echo, INPUT);

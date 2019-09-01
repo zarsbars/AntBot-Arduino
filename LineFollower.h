@@ -3,6 +3,12 @@
 
 #include <Arduino.h>
 
+// Sensor and Display Ports
+#define C1 A0;
+#define C2 A1;
+#define D1 A2;
+#define D2 A3;
+
 class LineFollower
 {
 private:

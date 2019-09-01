@@ -1,10 +1,6 @@
 #include <AntBot.h>
 
-//IRrecv irrecv(2); //For remote
-#define L 5
-#define R 6
-#define L_DIR 24
-#define R_DIR 23
+IRrecv irrecv(2); //For remote
 
 
 AntBot::AntBot() {
@@ -151,7 +147,7 @@ void AntBot::turnLeftTime(int speed, double sec)
 	delay(1000 * sec);
 	stopMotion();
 }
-/*
+
 void AntBot::remoteSetup()
 {
 	irrecv.enableIRIn();
@@ -200,4 +196,3 @@ void AntBot::remotePlay()
 		delay(150);
 	}
 }
-*/

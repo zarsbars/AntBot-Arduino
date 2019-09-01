@@ -10,11 +10,11 @@ LineFollower::LineFollower(String port) {
 
 void LineFollower::setPort(String port) {
 	if(port.equals("C")){
-		leftPin = A0;
-		rightPin = A1;
+		leftPin = C1;
+		rightPin = C2;
 	}else if(port.equals("D")){
-		leftPin = A2;
-		rightPin = A3;
+		leftPin = D1;
+		rightPin = D2;
 	}
 	pinMode(leftPin, OUTPUT);
 	pinMode(rightPin, OUTPUT);
@@ -42,5 +42,5 @@ boolean LineFollower::rightOfLine() {
 }
 
 boolean LineFollower::leftOfLine() {
-	return ~getLeft() && getRight();
+	return getRight() && !getLeft();
 }

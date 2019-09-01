@@ -4,8 +4,8 @@
 #include <Arduino.h>
 #include <LineFollower.h>
 #include <Ultrasonic.h>
-//#include <IRremote.h>
-//#include <Gyro.h> 
+#include <IRremote.h>
+#include <Gyro.h> 
 #include <PiezoBuzzer.h>
 //#include "Display.h"
 
@@ -13,13 +13,22 @@
 //#include "Adafruit_GFX.h"
 //#include "Adafruit_ILI9341.h"
 
-#define motorPWMR 4
-#define motorDR	5
-#define motorPWML 7
-#define motorDL	6
-//#define buzzer 8
 
-//Remote button codes
+// Motor Pins
+#define L 5
+#define R 6
+#define L_DIR 24
+#define R_DIR 23
+
+// Sensor and Display Ports
+// Currently these also need to be defined in the sensor .h files.
+// Someone should figure out how to make those files reference these definitions.
+#define C1 A0;
+#define C2 A1;
+#define D1 A2;
+#define D2 A3;
+
+// Remote button codes
 #define UP_ARROW 16712445
 #define DOWN_ARROW 16750695
 #define RIGHT_ARROW 16748655
@@ -47,7 +56,7 @@ public:
 	Ultrasonic ultrasonic;
 	PiezoBuzzer Buzzer;
 	//Display display;
-	//Gyro gyro;
+	Gyro gyro;
 
 	AntBot();
 	void addLineFollower(String);
@@ -66,8 +75,8 @@ public:
 	void turnLeftTime(int, double);
 
 	//Remote stuff
-	//void remoteSetup();
-	//void remotePlay();
+	void remoteSetup();
+	void remotePlay();
 };
 
 #endif
