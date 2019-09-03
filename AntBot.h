@@ -4,9 +4,9 @@
 #include <Arduino.h>
 #include <LineFollower.h>
 #include <Ultrasonic.h>
-#include <IRremote.h>
-#include <Gyro.h> 
-#include <PiezoBuzzer.h>
+//#include <IRremote.h>
+//#include <Gyro.h> 
+//#include <PiezoBuzzer.h>
 //#include "Display.h"
 
 //#include "SPI.h"
@@ -54,9 +54,9 @@ public:
 	//sensors
 	LineFollower lineFollower;
 	Ultrasonic ultrasonic;
-	PiezoBuzzer Buzzer;
+	//PiezoBuzzer Buzzer;
 	//Display display;
-	Gyro gyro;
+	//Gyro gyro;
 
 	AntBot();
 	void addLineFollower(String);
@@ -75,8 +75,8 @@ public:
 	void turnLeftTime(int, double);
 
 	//Remote stuff
-	void remoteSetup();
-	void remotePlay();
+	//void remoteSetup();
+	//void remotePlay();
 };
 
 #endif
