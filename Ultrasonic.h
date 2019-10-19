@@ -3,13 +3,18 @@
 
 #include <Arduino.h>
 
-//#define motorPWMR 4
-//#define motorDR	5
+// Sensor and Display Ports
+#define C1 A0;
+#define C2 A1;
+#define D1 A2;
+#define D2 A3;
+
 
 class Ultrasonic
 {
 private:
-	int pingPin;
+	int trig;
+	int echo;
 	
 public:
 	Ultrasonic();

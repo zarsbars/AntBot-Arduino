@@ -1,42 +1,26 @@
-#pragma once
 #include <AntBot.h>
 
 IRrecv irrecv(2); //For remote
 
-AntBot::AntBot() {
 
+AntBot::AntBot() {
+	pinMode(L, OUTPUT);
+	pinMode(R, OUTPUT);
+	pinMode(L_DIR, OUTPUT);
+	pinMode(R_DIR, OUTPUT);
 }
 
-AntBot::AntBot(boolean reverse) {
-	isReversed = reverse;
-	if(reverse){
-		PORTD &= ~(1<<PD4);
-		PORTD |= (1<<PD7);
-	}else{
-		PORTD |= (1<<PD4);
-		PORTD &= ~(1<<PD7);
-	}
-	pinMode(5, OUTPUT);
-	pinMode(6, OUTPUT);
+void AntBot::lineFollowerPort(String port) {
+	lineFollower = LineFollower(port);
+}
+
+void AntBot::ultrasonicPort(String port) {
+	ultrasonic = Ultrasonic(port);
 }
 
 void AntBot::stopMotion() {
-	analogWrite(5,0);
-	analogWrite(6,0);
-}
-
-void AntBot::fullForward() {
-	PORTD |= (1<<PD4);
-	analogWrite(5, 255);
-	PORTD &= ~(1<<PD7);
-	analogWrite(6, 255);
-}
-
-void AntBot::fullReverse() {
-	PORTD &= ~(1<<PD4);
-	analogWrite(5, 255);
-	PORTD |= (1<<PD7);
-	analogWrite(6, 255);
+	analogWrite(L, 0);
+	analogWrite(R, 0);
 }
 
 void AntBot::forward(int speed) {
@@ -45,10 +29,10 @@ void AntBot::forward(int speed) {
 	}else if(speed > 255){
 		speed = 255;
 	}
-	PORTD |= (1<<PD4);
-	analogWrite(5, speed);
-	PORTD &= ~(1<<PD7);
-	analogWrite(6, speed);
+	digitalWrite(L_DIR, HIGH);
+	digitalWrite(R_DIR, LOW);
+	analogWrite(L, speed);
+	analogWrite(R, speed);
 }
 
 void AntBot::reverse(int speed) {
@@ -57,36 +41,23 @@ void AntBot::reverse(int speed) {
 	}else if(speed > 255){
 		speed = 255;
 	}
-	PORTD &= ~(1<<PD4);
-	analogWrite(5, speed);
-	PORTD |= (1<<PD7);
-	analogWrite(6, speed);
+	digitalWrite(L_DIR, LOW);
+	digitalWrite(R_DIR, HIGH);
+	analogWrite(L, speed);
+	analogWrite(R, speed);
 }
 
-void AntBot::forwardTime(int speed, double sec)
-{
-	forward(speed);
-	delay(sec * 1000);
-	stopMotion();
-}
-
-void AntBot::reverseTime(int speed, double sec)
-{
-	reverse(speed);
-	delay(sec * 1000);
-	stopMotion();
-}
-
-void AntBot::turnLeft(int speed)
-{
+void AntBot::turnLeft(int speed) {
 	if (speed < 0) {
 		speed = 0;
 	}
 	else if (speed > 255) {
 		speed = 255;
 	}
-	PORTD &= ~(1 << PD7);
-		analogWrite(6, speed);
+	digitalWrite(R_DIR, LOW);
+	digitalWrite(L_DIR, LOW);
+	analogWrite(R, speed);
+	analogWrite(L, speed);
 }
 
 void AntBot::turnRight(int speed) 
@@ -97,8 +68,10 @@ void AntBot::turnRight(int speed)
 	else if (speed > 255) {
 		speed = 255;
 	}
-	PORTD &= ~(1 << PD4);
-	analogWrite(5, speed);
+	digitalWrite(L_DIR, HIGH);
+	digitalWrite(R_DIR, HIGH);
+	analogWrite(L, speed);
+	analogWrite(R, speed);
 }
 
 void AntBot::setMotors(int left, int right)
@@ -117,37 +90,10 @@ void AntBot::setMotors(int left, int right)
 		right = 255;
 	}
 
-	PORTD &= ~(1 << PD4);
-	analogWrite(5, left);
-
-	PORTD &= ~(1 << PD4);
-	analogWrite(5, right);
-}
-
-void AntBot::turnRightTime(int speed, double sec)
-{
-	if (speed < 0) {
-		speed = 0;
-	}
-	else if (speed > 255) {
-		speed = 255;
-	}
-	turnRight(speed);
-	delay(1000 * sec);
-	stopMotion();
-}
-
-void AntBot::turnLeftTime(int speed, double sec)
-{
-	if (speed < 0) {
-		speed = 0;
-	}
-	else if (speed > 255) {
-		speed = 255;
-	}
-	turnLeft(speed);
-	delay(1000 * sec);
-	stopMotion();
+	digitalWrite(L_DIR, HIGH);
+	digitalWrite(R_DIR, LOW);
+	analogWrite(L, left);
+	analogWrite(R, right);
 }
 
 void AntBot::remoteSetup()
@@ -177,10 +123,10 @@ void AntBot::remotePlay()
 
 			switch (results.value) {
 			case UP_ARROW:
-				fullForward();
+				forward(255);
 				break;
 			case DOWN_ARROW:
-				fullReverse();
+				reverse(255);
 				break;
 			case LEFT_ARROW:
 				turnLeft(210);

@@ -3,8 +3,11 @@
 
 #include <Arduino.h>
 
-//#define motorPWMR 4
-//#define motorDR	5
+// Sensor and Display Ports
+#define C1 A0;
+#define C2 A1;
+#define D1 A2;
+#define D2 A3;
 
 class LineFollower
 {
@@ -13,14 +16,12 @@ private:
 	int rightPin;
 	
 public:
-	//implemented
 	LineFollower();
 	LineFollower(String);
 	void setPort(String);
+	
 	boolean getLeft();
 	boolean getRight();
-
-	//to be implemented
 	boolean onLine();
 	boolean offLine();
 	boolean rightOfLine();
